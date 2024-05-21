@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Text, VStack, Spinner, Box, Link, Heading } from "@chakra-ui/react";
+import { Container, Text, VStack, Spinner, Box, Link, Heading, HStack, Badge, Flex } from "@chakra-ui/react";
 
 const Index = () => {
   const [stories, setStories] = useState([]);
@@ -38,10 +38,19 @@ const Index = () => {
         ) : (
           stories.map((story) => (
             <Box key={story.id} p={4} borderWidth="1px" borderRadius="md" w="100%">
-              <Link href={story.url} isExternal>
-                <Text fontSize="lg" fontWeight="bold">{story.title}</Text>
-              </Link>
-              <Text fontSize="sm" color="gray.500">by {story.by}</Text>
+              <Flex justify="space-between" align="center">
+                <Link href={story.url} isExternal>
+                  <Text fontSize="lg" fontWeight="bold">{story.title}</Text>
+                </Link>
+                <Badge colorScheme="green">{story.score} points</Badge>
+              </Flex>
+              <HStack spacing={4} mt={2}>
+                <Text fontSize="sm" color="gray.500">by {story.by}</Text>
+                <Link href={`https://news.ycombinator.com/item?id=${story.id}`} isExternal>
+                  <Text fontSize="sm" color="gray.500">{story.descendants} comments</Text>
+                </Link>
+                <Text fontSize="sm" color="gray.500">{new Date(story.time * 1000).toLocaleString()}</Text>
+              </HStack>
             </Box>
           ))
         )}
